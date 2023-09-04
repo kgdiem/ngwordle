@@ -10,7 +10,11 @@ export class StorageService {
     const item = localStorage.getItem(key);
 
     if (item) {
-      return JSON.parse(item);
+      try {
+        return JSON.parse(item);
+      } catch (e) {
+        return null;
+      }
     } else {
       return null;
     }

@@ -19,6 +19,10 @@ describe('StorageService', () => {
     service = TestBed.inject(StorageService);
   });
 
+  afterEach(() => {
+    localStorage.clear();
+  });
+
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
@@ -54,6 +58,16 @@ describe('StorageService', () => {
       const value = localStorage.getItem('test');
 
       expect(value).toEqual(JSON.stringify({ test: 'test' }));
+    });
+
+    it('should overwrite the value in localStorage', () => {
+      localStorage.setItem('test', JSON.stringify({ test: 'test' }));
+
+      service.set('test', { test: 'test2' });
+
+      const value = localStorage.getItem('test');
+
+      expect(value).toEqual(JSON.stringify({ test: 'test2' }));
     });
   });
 
