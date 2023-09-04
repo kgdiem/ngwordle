@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { WordService } from './word.service';
 import { Guess } from './types';
+import { GameStateService } from './game-state.service';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,10 @@ export class AppComponent implements AfterViewInit {
 
   @ViewChild('guessInput') guessInput: ElementRef | null = null;
 
-  constructor(private wordService: WordService) {}
+  constructor(
+    private wordService: WordService,
+    private gameService: GameStateService
+  ) {}
 
   ngAfterViewInit(): void {
     this.forceFocus();
@@ -59,7 +63,7 @@ export class AppComponent implements AfterViewInit {
     }
 
     // TODO: check if the guess is correct
-    const result = this.wordService.checkGuess(guess.guess, this.word);
+    const result = this.gameService.checkGuess(guess.guess, this.word);
 
     guess.result = result;
 
