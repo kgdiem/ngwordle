@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import words from '../assets/words.json';
-import { GuessResult } from './types';
 
 @Injectable({
   providedIn: 'root',

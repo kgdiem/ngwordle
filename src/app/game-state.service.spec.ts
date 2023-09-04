@@ -16,33 +16,99 @@ describe('GameStateService', () => {
 
   describe('checkGuess', () => {
     it('should return true if the guess is correct', () => {
-      const word = 'hello';
+      service.word = 'hello';
       const guess = 'hello';
-      expect(service.checkGuess(guess, word)).toEqual([1, 1, 1, 1, 1]);
+      expect(service.checkGuess(guess)).toEqual([1, 1, 1, 1, 1]);
     });
 
     it('should return correct letters if the guess is incorrect', () => {
-      const word = 'hello';
+      service.word = 'hello';
       const guess = 'hella';
-      expect(service.checkGuess(guess, word)).toEqual([1, 1, 1, 1, 0]);
+      expect(service.checkGuess(guess)).toEqual([1, 1, 1, 1, 0]);
     });
 
     it('should return correct sequence if letters are in the wrong order', () => {
-      const word = 'hello';
+      service.word = 'hello';
       const guess = 'ehllo';
-      expect(service.checkGuess(guess, word)).toEqual([2, 2, 1, 1, 1]);
+      expect(service.checkGuess(guess)).toEqual([2, 2, 1, 1, 1]);
     });
 
     it('should return incorrect if the letter is not in the word', () => {
-      const word = 'hello';
+      service.word = 'hello';
       const guess = 'abcdn';
-      expect(service.checkGuess(guess, word)).toEqual([0, 0, 0, 0, 0]);
+      expect(service.checkGuess(guess)).toEqual([0, 0, 0, 0, 0]);
     });
 
     it('should return correct sequence when first letter is in wrong sequence', () => {
-      const word = 'hello';
+      service.word = 'hello';
       const guess = 'oellh';
-      expect(service.checkGuess(guess, word)).toEqual([2, 1, 1, 1, 2]);
+      expect(service.checkGuess(guess)).toEqual([2, 1, 1, 1, 2]);
+    });
+  });
+
+  describe('guess', () => {
+    it('should not allow guesses after the game is over', () => {
+      service.gameIsOver = true;
+      service.guess();
+      expect(service.guessIndex).toEqual(0);
+    });
+
+    it('should not allow guesses with less than 5 letters', () => {
+      service.guesses[0].guess = 'abcd';
+      service.guess();
+      expect(service.guessIndex).toEqual(0);
+    });
+
+    it('should increment the guess index', () => {
+      service.guesses[0].guess = 'abcde';
+      service.guess();
+      expect(service.guessIndex).toEqual(1);
+    });
+
+    it('should set the result of the guess', () => {
+      service.word = 'hello';
+      service.guesses[0].guess = 'hello';
+      service.guess();
+      expect(service.guesses[0].result).toEqual([1, 1, 1, 1, 1]);
+    });
+
+    it('should set the game result to true if the guess is correct', () => {
+      service.word = 'hello';
+      service.guesses[0].guess = 'hello';
+      service.guess();
+      expect(service.gameResult).toEqual(true);
+    });
+
+    it('should set the game result to false if the guess is incorrect', () => {
+      service.word = 'hello';
+      service.guesses[0].guess = 'hella';
+      service.guess();
+      expect(service.gameResult).toEqual(false);
+    });
+
+    it('should set the game is over if the guess is incorrect', () => {
+      service.word = 'hello';
+      service.guessIndex = 5;
+      service.guesses[5].guess = 'hella';
+      service.guess();
+      expect(service.gameIsOver).toEqual(true);
+      expect(service.gameResult).toEqual(false);
+    });
+  });
+
+  describe('restart', () => {
+    it('should reset the game', () => {
+      service.word = 'hello';
+      service.guessIndex = 5;
+      service.guesses[5].guess = 'hella';
+      service.gameIsOver = true;
+      service.gameResult = false;
+      service.restart();
+      expect(service.word).not.toEqual('hello');
+      expect(service.guessIndex).toEqual(0);
+      expect(service.guesses[5].guess).toEqual('');
+      expect(service.gameIsOver).toEqual(false);
+      expect(service.gameResult).toEqual(false);
     });
   });
 });
