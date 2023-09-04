@@ -10,7 +10,10 @@ import { Guess } from './types';
 export class AppComponent implements AfterViewInit {
   title = 'ngwordle';
   guessIndex = 0;
-  guesses: Guess[] = new Array(6).fill('').map(() => ({
+  gameIsOver = false;
+  gameResult = false;
+  maxGuesses = 6;
+  guesses: Guess[] = new Array(this.maxGuesses).fill('').map(() => ({
     guess: '',
     result: new Array(5).fill(undefined),
   }));
@@ -29,7 +32,25 @@ export class AppComponent implements AfterViewInit {
     this.guessInput?.nativeElement.focus();
   }
 
+  restart() {
+    this.guessIndex = 0;
+    this.gameIsOver = false;
+    this.gameResult = false;
+    this.guesses = new Array(this.maxGuesses).fill('').map(() => ({
+      guess: '',
+      result: new Array(5).fill(undefined),
+    }));
+    this.word = this.wordService.getRandomWord();
+
+    // TODO: this is a hack to get the focus to work
+    setTimeout(() => this.forceFocus(), 0);
+  }
+
   guess() {
+    if (this.gameIsOver) {
+      return;
+    }
+
     const guess = this.guesses[this.guessIndex];
 
     if (guess.guess.length < 5) {
@@ -43,11 +64,17 @@ export class AppComponent implements AfterViewInit {
     guess.result = result;
 
     if (result.reduce((acc, curr) => acc && curr === 1, true) === true) {
-      // TODO: show the user that they won
+      this.gameResult = true;
+      this.gameIsOver = true;
     }
 
-    this.guessIndex++;
+    const nextGuessIndex = this.guessIndex + 1;
 
-    // TODO: check if the game is over
+    if (nextGuessIndex >= this.maxGuesses) {
+      this.gameResult = false;
+      this.gameIsOver = true;
+    } else {
+      this.guessIndex = nextGuessIndex;
+    }
   }
 }

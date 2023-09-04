@@ -1,6 +1,20 @@
 <div class="container mx-auto py-3 px-3">
-  <h1 class="text-5xl text-center mb-5">NgWordle {{ word }}</h1>
+  <h1 class="text-5xl text-center mb-5">NgWordle</h1>
 
+  <div *ngIf="gameIsOver" class="mb-5">
+    <h2 class="text-3xl text-center mb-5">Game Over</h2>
+    <div *ngIf="gameResult; else loser">
+      <h3 class="text-2xl text-center mb-5">You Win!</h3>
+    </div>
+    <div class="text-center">
+      <button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        (click)="restart()"
+      >
+        Play Again
+      </button>
+    </div>
+  </div>
   <div *ngFor="let guess of guesses">
     <app-guess [guess]="guess" />
   </div>
@@ -12,5 +26,13 @@
     (focusout)="forceFocus()"
     [(ngModel)]="guesses[guessIndex].guess"
     (keyup.enter)="guess()"
+    [disabled]="gameIsOver"
   />
 </div>
+
+<ng-template #loser>
+  <div>
+    <h3 class="text-2xl text-center mb-5">You Lose!</h3>
+    <h4 class="text-xl text-center mb-5">The word was {{ word }}</h4>
+  </div>
+</ng-template>
