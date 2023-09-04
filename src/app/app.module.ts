@@ -4,9 +4,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { GuessComponent } from './guess/guess.component';
+import { LetterComponent } from './letter/letter.component';
 
 @NgModule({
-  declarations: [AppComponent, GuessComponent],
+  declarations: [AppComponent, GuessComponent, LetterComponent],
   imports: [BrowserModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent],

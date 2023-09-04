@@ -19,4 +19,21 @@ describe('AppComponent', () => {
     const app = fixture.componentInstance;
     expect(app.title).toEqual('ngwordle');
   });
+
+  it('should initialize with a random word', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app.word).toBeTruthy();
+  });
+
+  it('should initialize with guesses configured', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app.guesses.length).toEqual(6);
+
+    app.guesses.forEach((guess) => {
+      expect(guess.guess).toEqual('');
+      expect(guess.result.length).toEqual(5);
+    });
+  });
 });

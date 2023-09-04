@@ -12,7 +12,7 @@ export class AppComponent implements AfterViewInit {
   guessIndex = 0;
   guesses: Guess[] = new Array(6).fill('').map(() => ({
     guess: '',
-    result: [],
+    result: new Array(5).fill(undefined),
   }));
 
   word = this.wordService.getRandomWord();
