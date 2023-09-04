@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Guess, GuessResult } from './types';
+import { AppPreferences, Guess, GuessResult } from './types';
 import { WordService } from './word.service';
 
 @Injectable({
@@ -10,13 +10,17 @@ export class GameStateService {
   guessIndex = 0;
   gameIsOver = false;
   gameResult = false;
-  maxGuesses = 6;
-  guesses: Guess[] = new Array(this.maxGuesses).fill('').map(() => ({
-    guess: '',
-    result: new Array(5).fill(undefined),
-  }));
+  guesses: Guess[] = new Array(this.appPreferences.maxGuesses)
+    .fill('')
+    .map(() => ({
+      guess: '',
+      result: new Array(5).fill(undefined),
+    }));
 
-  constructor(private wordService: WordService) {}
+  constructor(
+    private wordService: WordService,
+    private appPreferences: AppPreferences
+  ) {}
 
   checkGuess(guess: string): GuessResult[] {
     if (guess === this.word) {
@@ -43,10 +47,12 @@ export class GameStateService {
     this.guessIndex = 0;
     this.gameIsOver = false;
     this.gameResult = false;
-    this.guesses = new Array(this.maxGuesses).fill('').map(() => ({
-      guess: '',
-      result: new Array(5).fill(undefined),
-    }));
+    this.guesses = new Array(this.appPreferences.maxGuesses)
+      .fill('')
+      .map(() => ({
+        guess: '',
+        result: new Array(5).fill(undefined),
+      }));
   }
 
   guess() {
@@ -73,7 +79,7 @@ export class GameStateService {
 
     const nextGuessIndex = this.guessIndex + 1;
 
-    if (nextGuessIndex >= this.maxGuesses) {
+    if (nextGuessIndex >= this.appPreferences.maxGuesses) {
       this.gameResult = false;
       this.gameIsOver = true;
     } else {

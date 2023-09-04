@@ -1,12 +1,21 @@
 import { TestBed } from '@angular/core/testing';
 
 import { GameStateService } from './game-state.service';
+import { AppPreferences } from './types';
+import { MockAppPreferences } from './mocks';
 
 describe('GameStateService', () => {
   let service: GameStateService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: AppPreferences,
+          useValue: MockAppPreferences,
+        },
+      ],
+    });
     service = TestBed.inject(GameStateService);
   });
 

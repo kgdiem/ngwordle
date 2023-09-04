@@ -1,10 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { MockAppPreferences } from './mocks';
+import { AppPreferences } from './types';
 
 describe('AppComponent', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
       declarations: [AppComponent],
+      providers: [
+        {
+          provide: AppPreferences,
+          useValue: MockAppPreferences,
+        },
+      ],
     })
   );
 

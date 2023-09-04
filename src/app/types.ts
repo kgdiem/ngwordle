@@ -8,3 +8,8 @@ export interface Guess {
   guess: string;
   result: GuessResult[];
 }
+
+export abstract class AppPreferences {
+  maxGuesses: number = 6;
+  maxWordCache: number = 25;
+}
