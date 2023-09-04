@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Optional } from '@angular/core';
+import { Guess } from '../types';
 
 @Component({
   selector: 'app-guess',
@@ -6,5 +7,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./guess.component.scss'],
 })
 export class GuessComponent {
-  @Input() guess: string = '';
+  @Input() guess: Guess | undefined = undefined;
 }

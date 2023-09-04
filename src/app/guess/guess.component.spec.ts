@@ -8,10 +8,11 @@ describe('GuessComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [GuessComponent]
+      declarations: [GuessComponent],
     });
     fixture = TestBed.createComponent(GuessComponent);
     component = fixture.componentInstance;
+    component.guess = { guess: 'hello', result: [] };
     fixture.detectChanges();
   });
 

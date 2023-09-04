@@ -31,7 +31,7 @@ describe('WordService', () => {
     it('should return true if the guess is correct', () => {
       const word = 'hello';
       const guess = 'hello';
-      expect(service.checkGuess(guess, word)).toBeTrue();
+      expect(service.checkGuess(guess, word)).toEqual([1, 1, 1, 1, 1]);
     });
 
     it('should return correct letters if the guess is incorrect', () => {

@@ -1,5 +1,5 @@
 <div class="container mx-auto py-3 px-3">
-  <h1 class="text-5xl text-center mb-5">NgWordle</h1>
+  <h1 class="text-5xl text-center mb-5">NgWordle {{ word }}</h1>
 
   <div *ngFor="let guess of guesses">
     <app-guess [guess]="guess" />
@@ -10,7 +10,7 @@
     autofocus
     maxlength="5"
     (focusout)="forceFocus()"
-    [(ngModel)]="guesses[guessIndex]"
+    [(ngModel)]="guesses[guessIndex].guess"
     (keyup.enter)="guess()"
   />
 </div>

@@ -1,11 +1,6 @@
 import { Injectable } from '@angular/core';
 import words from '../assets/words.json';
-
-export enum GuessResult {
-  CORRECT = 1,
-  INCORRECT = 0,
-  INCORRECT_SEQUENCE = 2,
-}
+import { GuessResult } from './types';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +13,23 @@ export class WordService {
     return words[index];
   }
 
-  checkGuess(guess: string, word: string): true | GuessResult[] {
-    return true;
+  checkGuess(guess: string, word: string): GuessResult[] {
+    if (guess === word) {
+      return new Array(word.length).fill(GuessResult.CORRECT);
+    } else {
+      const guessArray = guess.split('');
+
+      const result = word.split('').map((letter, index) => {
+        if (guessArray[index] === letter) {
+          return GuessResult.CORRECT;
+        } else if (guessArray.includes(letter)) {
+          return GuessResult.INCORRECT_SEQUENCE;
+        } else {
+          return GuessResult.INCORRECT;
+        }
+      });
+
+      return result;
+    }
   }
 }
