@@ -24,10 +24,10 @@ export class GameStateService {
     } else {
       const guessArray = guess.split('');
 
-      const result = this.word.split('').map((letter, index) => {
-        if (guessArray[index] === letter) {
+      const result = guessArray.map((letter, index) => {
+        if (this.word[index] === letter) {
           return GuessResult.CORRECT;
-        } else if (guessArray.includes(letter)) {
+        } else if (this.word.includes(letter)) {
           return GuessResult.INCORRECT_SEQUENCE;
         } else {
           return GuessResult.INCORRECT;

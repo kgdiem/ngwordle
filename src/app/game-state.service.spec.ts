@@ -44,6 +44,21 @@ describe('GameStateService', () => {
       const guess = 'oellh';
       expect(service.checkGuess(guess)).toEqual([2, 1, 1, 1, 2]);
     });
+
+    it('should return correct sequence for word', () => {
+      service.word = 'uniat';
+      let guess = 'grind';
+
+      expect(service.checkGuess(guess)).toEqual([0, 0, 1, 2, 0]);
+
+      guess = 'slink';
+
+      expect(service.checkGuess(guess)).toEqual([0, 0, 1, 2, 0]);
+
+      guess = 'shine';
+
+      expect(service.checkGuess(guess)).toEqual([0, 0, 1, 2, 0]);
+    });
   });
 
   describe('guess', () => {
